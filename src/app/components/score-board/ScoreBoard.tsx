@@ -1,7 +1,7 @@
-import { DataGrid, GridCellEditStopParams, MuiEvent } from "@mui/x-data-grid";
-import { ScoreBoardProps } from "./ScoreBoard.props";
-import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
+import { DataGrid } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
+import { ScoreBoardProps } from "./ScoreBoard.props";
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     '& .scoreboard-table-row-last': {
@@ -19,7 +19,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 }));
 
 const ScoreBoard = (props: ScoreBoardProps): JSX.Element => {
-    const { scores, config, total } = props;
+    const { scores, config, total, refresh } = props;
 
     const [columns, setColumns] = useState<any>([]);
     const [rows, setRows] = useState<any>([]);
@@ -61,7 +61,16 @@ const ScoreBoard = (props: ScoreBoardProps): JSX.Element => {
 
     const processRowUpdate = (newRow: any) => {
         const updatedRow = { ...newRow, isNew: false };
-        console.log(updatedRow);
+        const index = newRow.id - 1;
+        const playerKeys = Object.keys(newRow).filter(key => key.toLowerCase().includes('playername'));
+        const scores = JSON.parse(localStorage.getItem('scores') ?? '{}');
+
+        playerKeys.forEach(player => {
+            scores[index][player] = newRow[player];
+        });
+
+        localStorage.setItem('scores', JSON.stringify(scores));
+        refresh();
         return updatedRow;
     };
 

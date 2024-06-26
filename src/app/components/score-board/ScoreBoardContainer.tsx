@@ -137,7 +137,7 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
             {
                 scores.length ?
                     <Grid item xs={12} sx={{ mt: 2 }}>
-                        <ScoreBoard scores={scores} config={config} total={total} />
+                        <ScoreBoard scores={scores} config={config} total={total} refresh={refresh} />
                     </Grid> :
                     <Grid item xs={12} sx={{ height: '50vh' }}>
                         <EmptyState header={'Empty Scoreboard'} body={'Still no round played. Play some round and get started with the scoreboard'} />

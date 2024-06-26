@@ -6,6 +6,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { CreateGameProps } from "./CreateGame.props";
 import { BoardConfig } from "src/app/models/board-config.model";
 import { Player } from "src/app/models/player.model";
+import PlayerStatus from "./../../enums/player-status.enum";
 
 const CreateGame = (props: CreateGameProps): JSX.Element => {
     const { onClose, open } = props;
@@ -92,7 +93,8 @@ const CreateGame = (props: CreateGameProps): JSX.Element => {
         const players: Array<Player> = keys.map((x, index) => ({
             Id: x,
             Name: data[x] as string,
-            Order: index + 1
+            Order: index + 1,
+            Status: PlayerStatus.BelowMaxPoint
         }));
 
         const boardConfig: BoardConfig = {

@@ -6,6 +6,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { BoardConfig } from "src/app/models/board-config.model";
 import { ModifyPlayersProps } from "./ModifyPlayers.props";
 import { Player } from "src/app/models/player.model";
+import PlayerStatus from "./../../enums/player-status.enum";
 
 const ModifyPlayers = (props: ModifyPlayersProps): JSX.Element => {
     const { onClose, open } = props;
@@ -85,7 +86,8 @@ const ModifyPlayers = (props: ModifyPlayersProps): JSX.Element => {
         const players: Array<Player> = keys.map((x, index) => ({
             Id: x,
             Name: data[x] as string,
-            Order: index
+            Order: index,
+            Status: PlayerStatus.BelowMaxPoint
         }));
 
         config.Players = players;

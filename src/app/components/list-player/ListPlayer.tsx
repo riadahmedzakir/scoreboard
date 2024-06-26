@@ -72,7 +72,7 @@ const ListPlayer = (props: ListPlayerProps): JSX.Element => {
                 <Grid container gap={1}>
                     {
                         items.map(x => (
-                            <Grid item>
+                            <Grid item key={x.id}>
                                 <Draggable key={x.id} id={x.id}>
                                     <PlayerChip key={x.id} item={x} />
                                 </Draggable>

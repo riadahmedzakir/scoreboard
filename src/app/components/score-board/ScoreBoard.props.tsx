@@ -5,4 +5,5 @@ export interface ScoreBoardProps {
     scores: Array<FieldValues>;
     total: FieldValues,
     config: BoardConfig;
+    refresh: () => void;
 }
