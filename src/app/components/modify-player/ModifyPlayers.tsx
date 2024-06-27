@@ -87,7 +87,7 @@ const ModifyPlayers = (props: ModifyPlayersProps): JSX.Element => {
             Id: x,
             Name: data[x] as string,
             Order: index,
-            Status: PlayerStatus.BelowMaxPoint
+            Status: config.Players.find(player => player.Id === x)?.Status ?? PlayerStatus.BelowMaxPoint
         }));
 
         config.Players = players;

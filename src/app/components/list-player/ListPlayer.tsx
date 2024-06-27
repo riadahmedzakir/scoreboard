@@ -6,19 +6,21 @@ import { useEffect, useState } from 'react';
 import Draggable from './Draggable';
 import { ListPlayerProps } from "./ListPlayer.props";
 import PlayerChip from './PlayerChip';
+import { PlayChipItem } from './PlayerChip.props';
 
 const ListPlayer = (props: ListPlayerProps): JSX.Element => {
     const { players, refresh } = props;
 
     const [isDragging, setIsDragging] = useState(false);
-    const [activePlayer, setActivePlayer] = useState<{ id: number, playerId: string; playerName: string; } | undefined>(undefined);
-    const [items, setItems] = useState<Array<{ id: number, playerId: string; playerName: string; }>>([]);
+    const [activePlayer, setActivePlayer] = useState<PlayChipItem | undefined>(undefined);
+    const [items, setItems] = useState<Array<PlayChipItem>>([]);
     const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates, }));
 
     const handleDragStart = (event: any) => {
         const { active } = event;
         const activePlayer = items.find(x => x.id === active.id);
 
+        setIsDragging(true);
         setActivePlayer(activePlayer);
     }
 
@@ -35,7 +37,8 @@ const ListPlayer = (props: ListPlayerProps): JSX.Element => {
                 config.Players = newArray.map((x, index) => ({
                     Id: x.playerId,
                     Name: x.playerName,
-                    Order: index + 1
+                    Order: index + 1,
+                    Status: x.playerStatus
                 }));
 
                 localStorage.setItem('board-config', JSON.stringify(config));
@@ -46,13 +49,16 @@ const ListPlayer = (props: ListPlayerProps): JSX.Element => {
 
             refresh();
         }
+
+        setIsDragging(false);
     }
 
     useEffect(() => {
         const item = players.map(x => ({
             id: x.Order,
             playerId: x.Id,
-            playerName: x.Name
+            playerName: x.Name,
+            playerStatus: x.Status
         }));
 
         setItems(item);
