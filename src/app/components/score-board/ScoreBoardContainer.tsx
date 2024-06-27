@@ -1,16 +1,17 @@
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Divider, Grid, IconButton, Tooltip, Typography } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
+import { Player } from 'src/app/models/player.model';
 import CreateRound from "../create-round/CreateRound";
 import EmptyState from '../empty-state/EmptyState';
 import ListPlayer from '../list-player/ListPlayer';
 import ModifyPlayers from '../modify-player/ModifyPlayers';
+import PlayerStatus from './../../enums/player-status.enum';
 import ScoreBoard from './ScoreBoard';
 import { ScoreBoardContainerProps } from "./ScoreBoardContainer.props";
-import PlayerStatus from './../../enums/player-status.enum';
-import { Player } from 'src/app/models/player.model';
+import PlayerMilestone from '../player-milestone/PlayerMilestone';
 
 const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
     const { config, refresh } = props;
@@ -124,7 +125,7 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
                             onClick={() => setIsAddNewPlayerModalOpen(true)}
                         >
                             <Tooltip title="Modify players">
-                                <PersonAddAlt1Icon />
+                                <ManageAccountsIcon />
                             </Tooltip>
                         </IconButton>
                         <IconButton
@@ -157,6 +158,10 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
                         <ListPlayer players={players} refresh={refresh} />
                     </Grid>
                 </Grid>
+            </Grid>
+
+            <Grid item xs={12}>
+                <PlayerMilestone items={total} maxPoint={config.MaxPoint} players={players} />
             </Grid>
 
             {

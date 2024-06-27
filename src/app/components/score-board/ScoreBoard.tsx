@@ -83,6 +83,7 @@ const ScoreBoard = (props: ScoreBoardProps): JSX.Element => {
                     color: '#ffffff'
                 },
             }}
+            autoHeight
             rows={rows}
             columns={columns}
             initialState={{
