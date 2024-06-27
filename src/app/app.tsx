@@ -33,8 +33,9 @@ const App = (): JSX.Element => {
 
     const newConfig = JSON.parse(localStorage.getItem('board-config') ?? '{}');
 
-    setConfig(newConfig);
+    setConfig({ ...newConfig });
     setIsNewGameModalOpen(false);
+    handleRefresh();
   }
 
   const handleConfirmation = (isClosed: boolean) => {

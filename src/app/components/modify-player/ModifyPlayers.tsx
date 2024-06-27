@@ -53,7 +53,7 @@ const ModifyPlayers = (props: ModifyPlayersProps): JSX.Element => {
 
             let playerId = prev.reduce((maxObj, currentObj) => {
                 return currentObj.id > maxObj.id ? currentObj : maxObj;
-            }).id + 1;
+            }).id + 2;
 
             const newPlayers = [];
 

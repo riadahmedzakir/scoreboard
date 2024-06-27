@@ -103,6 +103,7 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
     useEffect(() => {
         const newScores = JSON.parse(localStorage.getItem('scores') ?? '[]');
 
+        setPlayers([...config.Players]);
         setScores(newScores);
     }, [config]);
 
@@ -161,7 +162,11 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
             </Grid>
 
             <Grid item xs={12}>
-                <PlayerMilestone items={total} maxPoint={config.MaxPoint} players={players} />
+                {
+                    scores.length ?
+                        <PlayerMilestone items={total} maxPoint={config.MaxPoint} players={players} />
+                        : <></>
+                }
             </Grid>
 
             {
