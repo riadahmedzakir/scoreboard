@@ -25,7 +25,7 @@ export default defineConfig({
   // },
 
   build: {
-    outDir: './dist/scoreboard',
+    outDir: './docs',
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {
