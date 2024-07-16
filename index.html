@@ -27,7 +27,7 @@
       }
     }
 
-    document.getElementById('wakeLockButton').addEventListener('click', () => {
+    document.addEventListener('onload', () => {
       if ('wakeLock' in navigator) {
         requestWakeLock();
       }
