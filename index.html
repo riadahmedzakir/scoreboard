@@ -14,6 +14,31 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
+
+  <script>
+    let wakeLock = null;
+
+    async function requestWakeLock() {
+      try {
+        wakeLock = await navigator.wakeLock.request('screen');
+        console.log('Wake Lock is active');
+      } catch (err) {
+        console.error(`${err.name}, ${err.message}`);
+      }
+    }
+
+    document.getElementById('wakeLockButton').addEventListener('click', () => {
+      if ('wakeLock' in navigator) {
+        requestWakeLock();
+      }
+    });
+
+    document.addEventListener('visibilitychange', async () => {
+      if (wakeLock !== null && document.visibilityState === 'visible') {
+        await requestWakeLock();
+      }
+    });
+  </script>
 </body>
 
 </html>
