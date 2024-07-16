@@ -27,11 +27,9 @@
       }
     }
 
-    document.addEventListener('onload', () => {
-      if ('wakeLock' in navigator) {
-        requestWakeLock();
-      }
-    });
+    if ('wakeLock' in navigator) {
+      requestWakeLock();
+    }
 
     document.addEventListener('visibilitychange', async () => {
       if (wakeLock !== null && document.visibilityState === 'visible') {
