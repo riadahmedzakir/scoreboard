@@ -7,6 +7,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import { Box } from '@mui/material';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import ConfirmationModal from './components/confirmation-modal/ConfirmationModal';
 import CreateGame from './components/create-game/CreateGame';
@@ -17,6 +18,8 @@ import { BoardConfig } from './models/board-config.model';
 
 
 const App = (): JSX.Element => {
+  const queryClient = new QueryClient();
+
   const [isNewGameModalOpen, setIsNewGameModalOpen] = useState<boolean>(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
   const [config, setConfig] = useState<BoardConfig>(JSON.parse(localStorage.getItem('board-config') ?? '{}'));
@@ -56,22 +59,24 @@ const App = (): JSX.Element => {
 
   return (
     <>
-      <TopBar onNewGameClick={handleNewGame} />
+      <QueryClientProvider client={queryClient}>
+        <TopBar onNewGameClick={handleNewGame} />
 
-      {
-        config.Title ?
-          <ScoreBoardContainer config={config} refresh={handleRefresh} /> :
-          <Box sx={{ height: '60vh' }}>
-            <EmptyState header={'Empty Game'} body={'Create a game to get started. Have FUN!!'} />
-          </Box>
-      }
+        {
+          config.Title ?
+            <ScoreBoardContainer config={config} refresh={handleRefresh} /> :
+            <Box sx={{ height: '60vh' }}>
+              <EmptyState header={'Empty Game'} body={'Create a game to get started. Have FUN!!'} />
+            </Box>
+        }
 
-      <CreateGame open={isNewGameModalOpen} onClose={handleCreateGame} />
+        <CreateGame open={isNewGameModalOpen} onClose={handleCreateGame} />
 
-      <ConfirmationModal open={isConfirmationModalOpen}
-        headerText={'Attention!'}
-        bodyText={'Are you sure you want to create a new game? This will discard any game that is in-progress.'}
-        onClose={handleConfirmation} />
+        <ConfirmationModal open={isConfirmationModalOpen}
+          headerText={'Attention!'}
+          bodyText={'Are you sure you want to create a new game? This will discard any game that is in-progress.'}
+          onClose={handleConfirmation} />
+      </QueryClientProvider >
     </>
   );
 }

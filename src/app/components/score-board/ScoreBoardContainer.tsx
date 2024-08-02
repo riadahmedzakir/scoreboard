@@ -1,3 +1,4 @@
+import { Share } from '@mui/icons-material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Divider, Grid, IconButton, Tooltip, Typography } from "@mui/material";
@@ -8,16 +9,18 @@ import CreateRound from "../create-round/CreateRound";
 import EmptyState from '../empty-state/EmptyState';
 import ListPlayer from '../list-player/ListPlayer';
 import ModifyPlayers from '../modify-player/ModifyPlayers';
+import PlayerMilestone from '../player-milestone/PlayerMilestone';
 import PlayerStatus from './../../enums/player-status.enum';
 import ScoreBoard from './ScoreBoard';
 import { ScoreBoardContainerProps } from "./ScoreBoardContainer.props";
-import PlayerMilestone from '../player-milestone/PlayerMilestone';
+import ScoreShareModal from './ScoreShareModal';
 
 const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
     const { config, refresh } = props;
 
     const [isNewRoundModalOpen, setIsNewRoundModalOpen] = useState<boolean>(false);
     const [isAddNewPlayerModalOpen, setIsAddNewPlayerModalOpen] = useState<boolean>(false);
+    const [isScoreShareModalOpen, setIsScoreShareModalOpen] = useState<boolean>(false);
     const [scores, setScores] = useState<Array<FieldValues>>(JSON.parse(localStorage.getItem('scores') ?? '[]'));
     const [total, setTotal] = useState<FieldValues>({});
     const [players, setPlayers] = useState<Array<Player>>(config.Players);
@@ -42,6 +45,10 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
 
         setIsAddNewPlayerModalOpen(false);
         refresh();
+    }
+
+    const handleScoreShareModalClose = () => {
+        setIsScoreShareModalOpen(prev => !prev);
     }
 
     const sortPlayers = () => {
@@ -118,6 +125,17 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
                     </Grid>
 
                     <Grid item>
+                        {/* <IconButton
+                            size="large"
+                            edge="start"
+                            color="default"
+                            aria-label="menu"
+                            onClick={handleScoreShareModalClose}
+                        >
+                            <Tooltip title="Share current board">
+                                <Share />
+                            </Tooltip>
+                        </IconButton> */}
                         <IconButton
                             size="large"
                             edge="start"
@@ -181,6 +199,7 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
 
             <CreateRound players={config.Players} open={isNewRoundModalOpen} onClose={handleCreateRound} />
             <ModifyPlayers open={isAddNewPlayerModalOpen} onClose={handleModifyPlayer} />
+            <ScoreShareModal open={isScoreShareModalOpen} onClose={handleScoreShareModalClose} scores={scores} config={config} />
         </Grid >
     );
 }
