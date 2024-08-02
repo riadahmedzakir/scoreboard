@@ -37,11 +37,15 @@ const ModifyPlayers = (props: ModifyPlayersProps): JSX.Element => {
 
     const handleAddPlayer = () => {
         setNumberOfPlayers(prev => {
-            const playerId = prev.reduce((maxObj, currentObj) => {
-                return currentObj.id > maxObj.id ? currentObj : maxObj;
-            }).id + 2;
+            const lastPlayer = prev.reduce((maxObj, currentObj) => {
+                const currentId = parseInt(currentObj.name.replace("playerName", ""));
+                const maxId = parseInt(maxObj.name.replace("playerName", ""))
+                return currentId > maxObj.id ? currentObj : maxObj;
+            });
 
-            const newPlayer = { id: playerId, label: `Name - Player`, name: `playerName${playerId}` };
+            const newPlayerId = parseInt(lastPlayer.name.replace("playerName", "")) + 1;
+
+            const newPlayer = { id: newPlayerId, label: `Name - Player`, name: `playerName${newPlayerId}` };
 
             return [...prev, newPlayer];
         });
@@ -51,15 +55,19 @@ const ModifyPlayers = (props: ModifyPlayersProps): JSX.Element => {
         setNumberOfPlayers(prev => {
             const newPlayerCount = getValues()['numberOfPlayersToAdd'] as number;
 
-            let playerId = prev.reduce((maxObj, currentObj) => {
-                return currentObj.id > maxObj.id ? currentObj : maxObj;
-            }).id + 2;
+            const lastPlayer = prev.reduce((maxObj, currentObj) => {
+                const currentId = parseInt(currentObj.name.replace("playerName", ""));
+                const maxId = parseInt(maxObj.name.replace("playerName", ""))
+                return currentId > maxObj.id ? currentObj : maxObj;
+            });
+
+            let newPlayerId = parseInt(lastPlayer.name.replace("playerName", "")) + 1;
 
             const newPlayers = [];
 
             for (let i = 0; i < newPlayerCount; i++) {
-                newPlayers.push({ id: playerId, label: `Name - Player`, name: `playerName${playerId}` });
-                playerId++;
+                newPlayers.push({ id: newPlayerId, label: `Name - Player`, name: `playerName${newPlayerId}` });
+                newPlayerId++;
             }
 
             return [...prev, ...newPlayers];
