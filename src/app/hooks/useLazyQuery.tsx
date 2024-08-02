@@ -15,7 +15,7 @@ const useLazyQuery = <TData, TError = Error>(key: QueryKey, fetcher: (config: Ax
             if (config) { return fetcher(config); }
 
             throw new Error('No config provided');
-        },
+        }
     };
 
     const response = useQuery<TData, TError>(queryOptions);

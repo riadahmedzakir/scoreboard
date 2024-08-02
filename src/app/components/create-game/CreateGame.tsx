@@ -7,6 +7,7 @@ import { CreateGameProps } from "./CreateGame.props";
 import { BoardConfig } from "src/app/models/board-config.model";
 import { Player } from "src/app/models/player.model";
 import PlayerStatus from "./../../enums/player-status.enum";
+import { Utility } from "./../../services/utility";
 
 const CreateGame = (props: CreateGameProps): JSX.Element => {
     const { onClose, open } = props;
@@ -104,6 +105,7 @@ const CreateGame = (props: CreateGameProps): JSX.Element => {
         };
 
         localStorage.setItem('board-config', JSON.stringify(boardConfig));
+        localStorage.setItem('current-game-id', JSON.stringify(Utility.generateGuID()));
         localStorage.removeItem('scores');
 
         reset([]);

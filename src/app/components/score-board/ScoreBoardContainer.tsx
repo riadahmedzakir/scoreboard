@@ -125,7 +125,7 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
                     </Grid>
 
                     <Grid item>
-                        {/* <IconButton
+                        <IconButton
                             size="large"
                             edge="start"
                             color="default"
@@ -135,7 +135,7 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
                             <Tooltip title="Share current board">
                                 <Share />
                             </Tooltip>
-                        </IconButton> */}
+                        </IconButton>
                         <IconButton
                             size="large"
                             edge="start"

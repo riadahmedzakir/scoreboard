@@ -8,7 +8,7 @@ import '@fontsource/roboto/700.css';
 
 import { Box } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ConfirmationModal from './components/confirmation-modal/ConfirmationModal';
 import CreateGame from './components/create-game/CreateGame';
 import EmptyState from './components/empty-state/EmptyState';
@@ -23,6 +23,7 @@ const App = (): JSX.Element => {
   const [isNewGameModalOpen, setIsNewGameModalOpen] = useState<boolean>(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
   const [config, setConfig] = useState<BoardConfig>(JSON.parse(localStorage.getItem('board-config') ?? '{}'));
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleNewGame = () => {
     setIsConfirmationModalOpen(true);
@@ -56,6 +57,9 @@ const App = (): JSX.Element => {
 
     setConfig(newConfig);
   }
+
+  useEffect(() => {
+  }, []);
 
   return (
     <>

@@ -1,52 +1,43 @@
-import { Dialog, DialogContent, DialogTitle, Grid } from "@mui/material";
-import { ShareScoreQr, ScoreShareModalProps } from "./ScoreShareModal.props";
+import { CircularProgress, Dialog, DialogContent, Grid } from "@mui/material";
+import { doc, setDoc } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
-import useAddJsonToBin from "./../../hooks/useAddJsonToBin";
-import { useQueryClient } from "@tanstack/react-query";
+import { firebase } from "../../../firebase";
+import { ScoreShareModalProps, ShareScoreQr } from "./ScoreShareModal.props";
 
 const ScoreShareModal = (props: ScoreShareModalProps): JSX.Element => {
     const { open, onClose, scores, config } = props;
 
     const ref = useRef<any>(undefined);
-    const timeStamp = new Date().getDate().toString();
-
-    const [addJsonToBin, addJsonToBinResponse] = useAddJsonToBin(timeStamp);
-
-    const queryClient = useQueryClient();
+    const [isLoading, setIsloading] = useState<boolean>(true);
 
     const handleClose = () => {
         onClose();
     };
 
-    const handleJson = (data: any) => {
-        addJsonToBin(data);
-    }
-
     useEffect(() => {
         if (open) {
-            console.log('here');
+            const currentGameId: string = JSON.parse(localStorage.getItem('current-game-id') ?? '');
 
-            setTimeout(() => {
-                ShareScoreQr.append(ref.current);
+            const configDocRef = doc(firebase, "config", currentGameId);
+            const scoreDocRef = doc(firebase, "scores", currentGameId);
 
+            setDoc(configDocRef, config).then(_ => {
+                setDoc(scoreDocRef, {
+                    scoreList: scores
+                }).then(_ => {
+                    setIsloading(false);
 
-                const data = {
-                    config: config,
-                    scores: scores
-                };
+                    setTimeout(() => {
+                        ShareScoreQr.append(ref.current);
 
-                ShareScoreQr.update({
-                    data: `https://riadahmedzakir.github.io/scoreboard?sharedId=66964c60acd3cb34a866dff7`
+                        ShareScoreQr.update({
+                            data: `https://riadahmedzakir.github.io/scoreboard?sharedId=${currentGameId}`
+                        });
+                    }, 50);
                 });
-
-                handleJson(data);
-            }, 10);
+            });
         }
     }, [open, scores, config]);
-
-    useEffect(() => {
-        queryClient.removeQueries({ queryKey: ['add-json-to-bin', timeStamp] });
-    }, [open, addJsonToBinResponse])
 
     return (
         <Dialog onClose={handleClose} open={open} scroll="paper"
@@ -55,9 +46,13 @@ const ScoreShareModal = (props: ScoreShareModalProps): JSX.Element => {
         >
             <DialogContent>
                 <Grid container justifyContent={'center'} alignItems={'center'}>
-                    <Grid item>
-                        <div ref={ref} />
-                    </Grid>
+                    {
+                        isLoading ?
+                            <CircularProgress size={50} /> :
+                            <Grid item>
+                                <div ref={ref} />
+                            </Grid>
+                    }
                 </Grid>
             </DialogContent>
         </Dialog>
