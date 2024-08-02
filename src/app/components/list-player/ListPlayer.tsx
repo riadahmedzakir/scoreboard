@@ -1,4 +1,4 @@
-import { DndContext, DragOverlay, KeyboardSensor, PointerSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, DragOverlay, KeyboardSensor, PointerSensor, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
 import { restrictToWindowEdges, } from '@dnd-kit/modifiers';
 import { SortableContext, arrayMove, horizontalListSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { Grid } from '@mui/material';
@@ -14,7 +14,7 @@ const ListPlayer = (props: ListPlayerProps): JSX.Element => {
     const [isDragging, setIsDragging] = useState(false);
     const [activePlayer, setActivePlayer] = useState<PlayChipItem | undefined>(undefined);
     const [items, setItems] = useState<Array<PlayChipItem>>([]);
-    const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates, }));
+    const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
 
     const handleDragStart = (event: any) => {
         const { active } = event;
