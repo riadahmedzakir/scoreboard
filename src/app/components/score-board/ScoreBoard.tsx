@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { ScoreBoardProps } from "./ScoreBoard.props";
 
-const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+const StyledDataGrid = styled(DataGrid)(() => ({
     '& .scoreboard-table-row-last': {
         background: '#B6C2B9',
         fontWeight: 'bold',

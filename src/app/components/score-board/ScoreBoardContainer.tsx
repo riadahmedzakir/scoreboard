@@ -197,7 +197,7 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
                     </Grid>
             }
 
-            <CreateRound players={config.Players} open={isNewRoundModalOpen} onClose={handleCreateRound} />
+            <CreateRound players={config.Players} maxPoint={config.MaxPoint} open={isNewRoundModalOpen} onClose={handleCreateRound} total={total} />
             <ModifyPlayers open={isAddNewPlayerModalOpen} onClose={handleModifyPlayer} />
             <ScoreShareModal open={isScoreShareModalOpen} onClose={handleScoreShareModalClose} scores={scores} config={config} />
         </Grid >

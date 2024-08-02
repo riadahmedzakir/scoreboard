@@ -40,7 +40,7 @@ const ModifyPlayers = (props: ModifyPlayersProps): JSX.Element => {
             const lastPlayer = prev.reduce((maxObj, currentObj) => {
                 const currentId = parseInt(currentObj.name.replace("playerName", ""));
                 const maxId = parseInt(maxObj.name.replace("playerName", ""))
-                return currentId > maxObj.id ? currentObj : maxObj;
+                return currentId > maxId ? currentObj : maxObj;
             });
 
             const newPlayerId = parseInt(lastPlayer.name.replace("playerName", "")) + 1;
@@ -58,7 +58,7 @@ const ModifyPlayers = (props: ModifyPlayersProps): JSX.Element => {
             const lastPlayer = prev.reduce((maxObj, currentObj) => {
                 const currentId = parseInt(currentObj.name.replace("playerName", ""));
                 const maxId = parseInt(maxObj.name.replace("playerName", ""))
-                return currentId > maxObj.id ? currentObj : maxObj;
+                return currentId > maxId ? currentObj : maxObj;
             });
 
             let newPlayerId = parseInt(lastPlayer.name.replace("playerName", "")) + 1;
