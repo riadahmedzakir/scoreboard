@@ -88,7 +88,7 @@ const CreateRound = (props: CreateRoundProps): JSX.Element => {
                 <Grid container gap={1}>
                     {
                         players.map(player => (
-                            (!excludeDefeated || (excludeDefeated && total[player.Id] < maxPoint)) ?
+                            (!excludeDefeated || !Object.keys(total).length || (excludeDefeated && total[player.Id] <= maxPoint)) ?
                                 <Grid item xs={12} key={player.Id}>
                                     <Grid container justifyContent={"space-between"} alignItems={"center"}>
                                         <Grid item xs={4}>{player.Name}</Grid>
