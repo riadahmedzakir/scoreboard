@@ -1,10 +1,11 @@
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, TextField, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel, Grid, Switch, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Controller, FieldValues, useForm } from "react-hook-form";
+import PlayerStatus from "./../../enums/player-status.enum";
 import { CreateRoundProps } from "./CreateRound.props";
 
 const CreateRound = (props: CreateRoundProps): JSX.Element => {
-    const { onClose, open, players, total, maxPoint } = props;
+    const { onClose, open, players, total } = props;
 
     const [excludeDefeated, setExcludeDefeated] = useState<boolean>(false);
 
@@ -56,19 +57,24 @@ const CreateRound = (props: CreateRoundProps): JSX.Element => {
             maxWidth={'sm'}
         >
             <DialogTitle>
-                <Grid container justifyContent={"space-between"} alignItems={"center"}>
-                    <Grid item>
-                        <Typography variant="h6">New round details</Typography>
-                    </Grid>
-                    <Grid item>
-                        <FormControlLabel
-                            control={
+                <Typography variant="h6">New round details</Typography>
+            </DialogTitle>
+
+            <DialogContent>
+                <Divider />
+                <Grid container gap={1} sx={{ mt: 1 }}>
+                    <Grid item xs={12}>
+                        <Grid container justifyContent={"space-between"} alignItems={"center"}>
+                            <Grid item>
+                                <Typography variant="body1">Exclude defeated players</Typography>
+                            </Grid>
+                            <Grid item>
                                 <Controller
                                     name={"ExcludeDefeated"}
                                     control={control}
                                     defaultValue={false}
                                     render={({ field: { value, onChange } }) => (
-                                        <Checkbox
+                                        <Switch
                                             checked={value}
                                             onChange={(event, checked) => {
                                                 onChange(event);
@@ -77,18 +83,15 @@ const CreateRound = (props: CreateRoundProps): JSX.Element => {
                                         />
                                     )}
                                 />
-                            }
-                            label={"Exclude defeated players"}
-                        />
+                            </Grid>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </DialogTitle>
-
-            <DialogContent>
-                <Grid container gap={1}>
+                    <Grid item xs={12}>
+                        <Divider />
+                    </Grid>
                     {
                         players.map(player => (
-                            (!excludeDefeated || !Object.keys(total).length || (excludeDefeated && total[player.Id] <= maxPoint)) ?
+                            (!excludeDefeated || !Object.keys(total)?.length || (excludeDefeated && player.Status != PlayerStatus.AboveMaxPoint)) ?
                                 <Grid item xs={12} key={player.Id}>
                                     <Grid container justifyContent={"space-between"} alignItems={"center"}>
                                         <Grid item xs={4}>{player.Name}</Grid>

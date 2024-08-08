@@ -5,6 +5,5 @@ export interface CreateRoundProps {
     open: boolean;
     players: Array<Player>;
     total: FieldValues;
-    maxPoint: number;
     onClose: (isClosed: boolean) => void;
 }
