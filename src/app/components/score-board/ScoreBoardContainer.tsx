@@ -1,10 +1,11 @@
-import { Share } from '@mui/icons-material';
+import { Refresh } from '@mui/icons-material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { Divider, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { Player } from 'src/app/models/player.model';
+import ConfirmationModal from '../confirmation-modal/ConfirmationModal';
 import CreateRound from "../create-round/CreateRound";
 import EmptyState from '../empty-state/EmptyState';
 import ListPlayer from '../list-player/ListPlayer';
@@ -21,6 +22,7 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
     const [isNewRoundModalOpen, setIsNewRoundModalOpen] = useState<boolean>(false);
     const [isAddNewPlayerModalOpen, setIsAddNewPlayerModalOpen] = useState<boolean>(false);
     const [isScoreShareModalOpen, setIsScoreShareModalOpen] = useState<boolean>(false);
+    const [isClearBoardModalOpen, setIsClearBoardModalOpen] = useState<boolean>(false);
     const [scores, setScores] = useState<Array<FieldValues>>(JSON.parse(localStorage.getItem('scores') ?? '[]'));
     const [total, setTotal] = useState<FieldValues>({});
     const [players, setPlayers] = useState<Array<Player>>(config.Players);
@@ -49,6 +51,17 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
 
     const handleScoreShareModalClose = () => {
         setIsScoreShareModalOpen(prev => !prev);
+    }
+
+    const handleClearBoardClose = (isClosed: boolean) => {
+        if (isClosed) {
+            setIsClearBoardModalOpen(false);
+            return;
+        }
+
+        setIsClearBoardModalOpen(false);
+        localStorage.removeItem('scores');
+        setScores([]);
     }
 
     const sortPlayers = () => {
@@ -125,7 +138,7 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
                     </Grid>
 
                     <Grid item>
-                        <IconButton
+                        {/* <IconButton
                             size="large"
                             edge="start"
                             color="default"
@@ -134,6 +147,17 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
                         >
                             <Tooltip title="Share current board">
                                 <Share />
+                            </Tooltip>
+                        </IconButton> */}
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="default"
+                            aria-label="menu"
+                            onClick={() => setIsClearBoardModalOpen(true)}
+                        >
+                            <Tooltip title="Clear board">
+                                <Refresh />
                             </Tooltip>
                         </IconButton>
                         <IconButton
@@ -200,6 +224,7 @@ const ScoreBoardContainer = (props: ScoreBoardContainerProps): JSX.Element => {
             <CreateRound players={config.Players} open={isNewRoundModalOpen} onClose={handleCreateRound} total={total} />
             <ModifyPlayers open={isAddNewPlayerModalOpen} onClose={handleModifyPlayer} />
             <ScoreShareModal open={isScoreShareModalOpen} onClose={handleScoreShareModalClose} scores={scores} config={config} />
+            <ConfirmationModal open={isClearBoardModalOpen} headerText={'Attention!'} bodyText={'Are you sure you want to reset scores?. Confirming will reset the scores and start a new game with same configurations'} onClose={handleClearBoardClose} />
         </Grid >
     );
 }
