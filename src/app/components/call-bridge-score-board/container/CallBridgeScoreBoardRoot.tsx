@@ -11,6 +11,7 @@ import CallBridgeScoreBoardContainer from "./CallBridgeScoreBoardContainer";
 const CallBridgeScoreBoardRoot = (): JSX.Element => {
   const [config, setConfig] = useState<CallBridgeBoardConfig>(JSON.parse(localStorage.getItem('call-bridge-board-config') ?? '{}'));
   const [scores, setScores] = useState<Array<Array<FieldValues>>>(JSON.parse(localStorage.getItem('call-bridge-scores') ?? '[]'));
+  const [roundType, setRoundType] = useState<'Call' | 'Trick'>('Trick');
   const [isNewGameModalOpen, setIsNewGameModalOpen] = useState<boolean>(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
 
@@ -44,9 +45,9 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
     const score = JSON.parse(localStorage.getItem('call-bridge-scores') ?? '[]');
     const config = JSON.parse(localStorage.getItem('call-bridge-board-config') ?? '{}');
     const total = calculateTotalScores(score);
+    const roundType = score.length == 0 ? 'Trick' : score[score.length - 1]?.length == 1 ? 'Trick' : 'Call';
 
-    console.log(total);
-
+    setRoundType(roundType);
     setScores(score);
   }
 
@@ -86,7 +87,7 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
 
       {
         config.Title ?
-          <CallBridgeScoreBoardContainer config={config} scores={scores} refresh={handleRefresh} /> :
+          <CallBridgeScoreBoardContainer config={config} scores={scores} refresh={handleRefresh} roundType={roundType} /> :
           <Box sx={{ height: '60vh' }}>
             <EmptyState header={'Empty Game'} body={'Create a game to get started. Have FUN!!'} />
           </Box>

@@ -11,7 +11,7 @@ import CallBridgeBoard from "./CallBridgeBoard";
 import { CallBridgeScoreBoardRootProps } from "./CallBridgeScoreBoardContainer.props";
 
 const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => {
-    const { config, scores, refresh } = props;
+    const { config, scores, refresh, roundType } = props;
 
     const [isFinishRoundModalOpen, setIsFinishRoundModalOpen] = useState<boolean>(false);
     const [isCreateCallModalOpen, setIsCreateCallModalOpen] = useState<boolean>(false);
@@ -67,29 +67,33 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
                                 <ManageAccountsIcon />
                             </Tooltip>
                         </IconButton>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="info"
-                            aria-label="menu"
-                            onClick={() => { setIsCreateCallModalOpen(true) }}
-                        >
-                            <Tooltip title="Add calls for the round">
-                                <DataSaverOnIcon />
-                            </Tooltip>
-                        </IconButton>
 
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="warning"
-                            aria-label="menu"
-                            onClick={() => { setIsFinishRoundModalOpen(true) }}
-                        >
-                            <Tooltip title="Finsh the round">
-                                <DownloadDoneIcon />
-                            </Tooltip>
-                        </IconButton>
+                        {
+                            roundType == 'Call' ?
+                                <IconButton
+                                    size="large"
+                                    edge="start"
+                                    color="info"
+                                    aria-label="menu"
+                                    onClick={() => { setIsCreateCallModalOpen(true) }}
+                                >
+                                    <Tooltip title="Add calls for the round">
+                                        <DataSaverOnIcon />
+                                    </Tooltip>
+                                </IconButton> :
+                                <IconButton
+                                    size="large"
+                                    edge="start"
+                                    color="warning"
+                                    aria-label="menu"
+                                    onClick={() => { setIsFinishRoundModalOpen(true) }}
+                                >
+                                    <Tooltip title="Finsh the round">
+                                        <DownloadDoneIcon />
+                                    </Tooltip>
+                                </IconButton>
+                        }
+
                     </Grid>
                 </Grid>
             </Grid>
@@ -134,7 +138,7 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
                         )
                     }
                 </Grid>
-                
+
                 {
                     scores.length ?
                         <Grid item xs={12} sx={{ mt: 2 }}>

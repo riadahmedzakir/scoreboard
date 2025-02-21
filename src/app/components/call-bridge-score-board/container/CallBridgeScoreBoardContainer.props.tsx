@@ -5,4 +5,5 @@ export interface CallBridgeScoreBoardRootProps {
     config: CallBridgeBoardConfig;
     scores: Array<Array<FieldValues>>;
     refresh: () => void;
+    roundType: 'Call' | 'Trick';
 }
