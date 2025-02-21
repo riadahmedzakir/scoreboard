@@ -59,7 +59,7 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
   }
 
   const mapScoresToPlayers = (gameData: CallBridgeBoardConfig, totalScores: FieldValues, score: Array<Array<FieldValues>>) => {
-    const lastCall = score[score.length - 1][0];
+    const lastCall = score[score.length - 1]?.[0] ?? [];
 
     const updatedPlayers = gameData.Players.map((player) => ({
       ...player,
@@ -91,7 +91,7 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
 
           if (achieved === called || achieved === called + 1) {
             totalScores[player] += called;
-          } else if (achieved === called - 1 || achieved >= called + 2) {
+          } else if (achieved < called || achieved >= called + 2) {
             totalScores[player] -= called;
           }
         }

@@ -14,10 +14,10 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         backgroundColor: '#000000',
         color: '#FFFFFF'
     },
-    "& .MuiDataGrid-cell:nth-child(3)": {
+    "& .MuiDataGrid-cell:nth-of-type(3)": {
         borderLeft: "1px solid #e0e0e0",
     },
-    "& .MuiDataGrid-cell:nth-child(4)": {
+    "& .MuiDataGrid-cell:nth-of-type(4)": {
         borderLeft: "1px solid #e0e0e0",
     }
 }));
