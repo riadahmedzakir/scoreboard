@@ -7,9 +7,10 @@ import { useState } from "react";
 import CreateCall from "../create-call/CreateCall";
 import FinishRound from "../finish-round/FinishRound";
 import { CallBridgeScoreBoardRootProps } from "./CallBridgeScoreBoardContainer.props";
+import CallBridgeBoard from "./CallBridgeBoard";
 
 const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => {
-    const { config } = props;
+    const { config, scores } = props;
 
     const [isFinishRoundModalOpen, setIsFinishRoundModalOpen] = useState<boolean>(false);
     const [isCreateCallModalOpen, setIsCreateCallModalOpen] = useState<boolean>(false);
@@ -129,6 +130,10 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
                             </Grid>
                         )
                     }
+                </Grid>
+
+                <Grid item xs={12} sx={{ mt: 3 }}>
+                    <CallBridgeBoard config={config} scores={scores} />
                 </Grid>
             </Grid>
 

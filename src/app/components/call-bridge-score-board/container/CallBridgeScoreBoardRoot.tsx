@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { FieldValues } from "react-hook-form";
 import { CallBridgeBoardConfig } from "src/app/models/call-bridge-board-config.model";
 import ConfirmationModal from "../../confirmation-modal/ConfirmationModal";
 import EmptyState from "../../empty-state/EmptyState";
@@ -9,6 +10,7 @@ import CallBridgeScoreBoardContainer from "./CallBridgeScoreBoardContainer";
 
 const CallBridgeScoreBoardRoot = (): JSX.Element => {
   const [config, setConfig] = useState<CallBridgeBoardConfig>(JSON.parse(localStorage.getItem('call-bridge-board-config') ?? '{}'));
+  const [scores, setScores] = useState<Array<Array<FieldValues>>>(JSON.parse(localStorage.getItem('call-bridge-scores') ?? '[]'));
   const [isNewGameModalOpen, setIsNewGameModalOpen] = useState<boolean>(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
 
@@ -44,7 +46,7 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
 
       {
         config.Title ?
-          <CallBridgeScoreBoardContainer config={config} /> :
+          <CallBridgeScoreBoardContainer config={config} scores={scores} /> :
           <Box sx={{ height: '60vh' }}>
             <EmptyState header={'Empty Game'} body={'Create a game to get started. Have FUN!!'} />
           </Box>
