@@ -7,6 +7,7 @@ import EmptyState from "../../empty-state/EmptyState";
 import TopBar from "../../top-bar/TopBar";
 import CallBridgeCreateGame from "../create-game/CallBridgeCreateGame";
 import CallBridgeScoreBoardContainer from "./CallBridgeScoreBoardContainer";
+import Winner from "../winner/Winner";
 
 const CallBridgeScoreBoardRoot = (): JSX.Element => {
   const [config, setConfig] = useState<CallBridgeBoardConfig>(JSON.parse(localStorage.getItem('call-bridge-board-config') ?? '{}'));
@@ -14,6 +15,8 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
   const [roundType, setRoundType] = useState<'Call' | 'Trick'>('Trick');
   const [isNewGameModalOpen, setIsNewGameModalOpen] = useState<boolean>(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false);
+  const [isWinnerModalOpen, setIsWinnerModalOpen] = useState<boolean>(false);
+  const [winners, setWinners] = useState<Array<string>>([]);
 
   const handleCreateGame = (isClosed: boolean) => {
     if (isClosed) {
@@ -37,6 +40,15 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
     setIsNewGameModalOpen(true);
   }
 
+  const handleWinner = (isClosed: boolean) => {
+    if (isClosed) {
+      setIsWinnerModalOpen(false);
+      return;
+    }
+
+    setIsWinnerModalOpen(false);
+  }
+
   const handleNewGame = () => {
     setIsConfirmationModalOpen(true);
   }
@@ -46,11 +58,17 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
     const config = JSON.parse(localStorage.getItem('call-bridge-board-config') ?? '{}');
     const total: FieldValues = calculateTotalScores(score);
     const newConfig = mapScoresToPlayers(config, total, score);
+    const winners = findWinners(total, config);
 
     toggleRoundType(score);
 
     setConfig(newConfig);
     setScores(score);
+
+    if (winners.length) {
+      setWinners(winners);
+      setIsWinnerModalOpen(true);
+    }
   }
 
   const toggleRoundType = (score: Array<Array<FieldValues>>) => {
@@ -98,7 +116,21 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
       });
     });
 
+    const winners = Object.keys(totalScores).forEach(player => {
+
+    })
+
     return totalScores;
+  };
+
+  const findWinners = (scores: Record<string, number>, config: CallBridgeBoardConfig): string[] => {
+    const winners = Object.entries(scores)
+      .filter(([_, score]) => score >= Number(config.MaxPoint))
+      .map(([player]) => config.Players.find(x => x.Id == player)?.Name ?? '');
+
+    console.log(winners);
+
+    return winners.length > 0 ? winners : [];
   };
 
   useEffect(() => {
@@ -128,6 +160,7 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
         headerText={'Attention!'}
         bodyText={'Are you sure you want to create a new game? This will discard any game that is in-progress.'}
         onClose={handleConfirmation} />
+      <Winner open={isWinnerModalOpen} onClose={handleWinner} winners={winners} />
     </>
   );
 };
