@@ -112,7 +112,7 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
                                         <CardMedia
                                             component="img"
                                             height="140"
-                                            image={`${player.Id}.jpg`}
+                                            image={`./${player.Id}.jpg`}
                                         />
 
                                         <CardContent>
