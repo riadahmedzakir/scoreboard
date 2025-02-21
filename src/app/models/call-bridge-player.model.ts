@@ -1,6 +1,6 @@
 export interface CallBridgePlayer {
     Id: string;
     Name: string;
-    Trick: number;
+    Total: number;
     Call: number;
 }

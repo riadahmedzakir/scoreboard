@@ -11,15 +11,18 @@ import * as ReactDOM from 'react-dom/client';
 
 import { BrowserRouter, Outlet } from 'react-router-dom';
 import ScoreBoardRouter from './app/score-board-router';
+import { SnackbarProvider } from './app/components/snack-bar/SnackBar';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <StrictMode>
-    <BrowserRouter>
-      <Outlet />
-      <ScoreBoardRouter />
-    </BrowserRouter>
+    <SnackbarProvider>
+      <BrowserRouter>
+        <Outlet />
+        <ScoreBoardRouter />
+      </BrowserRouter>
+    </SnackbarProvider>
   </StrictMode>
 );

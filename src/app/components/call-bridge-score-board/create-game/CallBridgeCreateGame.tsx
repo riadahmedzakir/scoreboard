@@ -1,9 +1,8 @@
 import { Close } from "@mui/icons-material";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControl, Grid, IconButton, InputLabel, OutlinedInput, TextField } from "@mui/material";
 import { FieldValues, useForm } from "react-hook-form";
-import { CallBridgeCreateGameProps } from "./CallBridgeCreateGame.props";
 import { CallBridgeBoardConfig } from "src/app/models/call-bridge-board-config.model";
-import { CallBridgePlayer } from "src/app/models/call-bridge-player.model";
+import { CallBridgeCreateGameProps } from "./CallBridgeCreateGame.props";
 
 const CallBridgeCreateGame = (props: CallBridgeCreateGameProps): JSX.Element => {
     const { open, onClose } = props;
@@ -24,7 +23,7 @@ const CallBridgeCreateGame = (props: CallBridgeCreateGameProps): JSX.Element => 
             Players: [1, 2, 3, 4].map(x => ({
                 Id: `player-${x}`,
                 Name: data[`player-${x}`],
-                Trick: 0,
+                Total: 0,
                 Call: 0
             }))
         };
@@ -37,6 +36,7 @@ const CallBridgeCreateGame = (props: CallBridgeCreateGameProps): JSX.Element => 
 
         handleClose(false);
     };
+
 
     return (
         <Dialog onClose={handleClose} open={open} scroll="paper"
@@ -66,7 +66,7 @@ const CallBridgeCreateGame = (props: CallBridgeCreateGameProps): JSX.Element => 
             <DialogContent>
                 <Grid container gap={2}>
                     <Grid item xs={12}>
-                        <TextField size="small" label="Title" variant="outlined" fullWidth
+                        <TextField size="small" label="Title" value={`Call-Bridge`} variant="outlined" fullWidth
                             {...register('title', { required: 'Title is required' })}
                         />
                     </Grid>
