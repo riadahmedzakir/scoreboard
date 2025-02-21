@@ -2,6 +2,7 @@
   "name": "@scoreboard/source",
   "version": "0.0.0",
   "license": "MIT",
+  "homepage": "https://riadahmedzakir.github.io",
   "scripts": {
     "start": "nx serve",
     "build": "nx build --base=scoreboard --prod && gulp",
