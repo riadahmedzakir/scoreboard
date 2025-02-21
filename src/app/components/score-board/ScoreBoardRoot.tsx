@@ -1,25 +1,18 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import './style.scss';
-
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-
 import { Backdrop, Box, CircularProgress } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { firebase } from './../firebase';
-import ConfirmationModal from './components/confirmation-modal/ConfirmationModal';
-import CreateGame from './components/create-game/CreateGame';
-import EmptyState from './components/empty-state/EmptyState';
-import ScoreBoardContainer from './components/score-board/ScoreBoardContainer';
-import TopBar from './components/top-bar/TopBar';
-import { BoardConfig } from './models/board-config.model';
+import { firebase } from '../../../firebase';
+import { BoardConfig } from '../../models/board-config.model';
+import ConfirmationModal from '../confirmation-modal/ConfirmationModal';
+import CreateGame from '../create-game/CreateGame';
+import EmptyState from '../empty-state/EmptyState';
+import TopBar from '../top-bar/TopBar';
+import ScoreBoardContainer from './ScoreBoardContainer';
 
-const App = (): JSX.Element => {
+const ScoreBoardRoot = (): JSX.Element => {
   const queryClient = new QueryClient();
   const location = useLocation();
   const navigate = useNavigate();
@@ -124,4 +117,4 @@ const App = (): JSX.Element => {
   );
 }
 
-export default App;
+export default ScoreBoardRoot;

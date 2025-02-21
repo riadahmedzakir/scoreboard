@@ -1,17 +1,31 @@
-import ScoreboardIcon from '@mui/icons-material/Scoreboard';
+import MenuIcon from '@mui/icons-material/Menu';
+import CasinoIcon from '@mui/icons-material/Casino';
 import ShareIcon from '@mui/icons-material/Share';
-import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import EnergySavingsLeafIcon from '@mui/icons-material/EnergySavingsLeaf';
+import { AppBar, Box, Button, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import { useState } from 'react';
 import ShareSiteModal from '../share-site-modal/ShareSiteModal';
 import { TopBarProps } from "./TopBar.props";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const TopBar = (props: TopBarProps): JSX.Element => {
     const { onNewGameClick } = props;
 
+    const navigate = useNavigate();
+
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
+    const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
     const handleShareModalClose = () => {
         setIsShareModalOpen(prev => !prev);
+    }
+
+    const toggleDrawer = (value: boolean) => () => {
+        setIsDrawerOpen(value);
+    };
+
+    const handleRoute = (value: string) => {
+        navigate(`${value}`, { replace: true });
     }
 
     return (
@@ -24,8 +38,9 @@ const TopBar = (props: TopBarProps): JSX.Element => {
                         color="inherit"
                         aria-label="menu"
                         sx={{ mr: 2 }}
+                        onClick={toggleDrawer(true)}
                     >
-                        <ScoreboardIcon color="primary" />
+                        <MenuIcon color="primary" />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Scoreboard
@@ -47,6 +62,30 @@ const TopBar = (props: TopBarProps): JSX.Element => {
 
             <ShareSiteModal open={isShareModalOpen}
                 onClose={handleShareModalClose} />
+
+            <Drawer open={isDrawerOpen} onClose={toggleDrawer(false)}>
+                <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+                    <List>
+                        <ListItem disablePadding onClick={() => { handleRoute('/') }}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <CasinoIcon color='primary' />
+                                </ListItemIcon>
+                                <ListItemText primary={'Generic Scoreboard'} />
+                            </ListItemButton>
+                        </ListItem>
+
+                        <ListItem disablePadding onClick={() => { handleRoute('/call-bridge') }}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <EnergySavingsLeafIcon color='primary' />
+                                </ListItemIcon>
+                                <ListItemText primary={'Call bridge'} />
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
+                </Box>
+            </Drawer>
         </Box >
     );
 }
