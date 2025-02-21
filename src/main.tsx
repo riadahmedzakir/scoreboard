@@ -9,7 +9,7 @@ import '@fontsource/roboto/700.css';
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 
-import { BrowserRouter, Outlet } from 'react-router-dom';
+import { HashRouter, Outlet } from 'react-router-dom';
 import ScoreBoardRouter from './app/score-board-router';
 import { SnackbarProvider } from './app/components/snack-bar/SnackBar';
 
@@ -19,10 +19,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <SnackbarProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Outlet />
         <ScoreBoardRouter />
-      </BrowserRouter>
+      </HashRouter>
     </SnackbarProvider>
   </StrictMode>
 );
