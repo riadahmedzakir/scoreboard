@@ -40,13 +40,53 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
     setIsConfirmationModalOpen(true);
   }
 
+  const handleRefresh = () => {
+    const score = JSON.parse(localStorage.getItem('call-bridge-scores') ?? '[]');
+    const config = JSON.parse(localStorage.getItem('call-bridge-board-config') ?? '{}');
+    const total = calculateTotalScores(score);
+
+    console.log(total);
+
+    setScores(score);
+  }
+
+  const calculateTotalScores = (rounds: any) => {
+    const totalScores: any = {};
+
+    rounds.forEach((round: any, index: number) => {
+      if (round.length < 2) return;
+
+      const call = round[0];
+      const gained = round[1];
+
+      Object.keys(gained).forEach((player) => {
+        const achieved = Number(gained[player]);
+
+        if (!(player in totalScores)) { totalScores[player] = 0 };
+
+        if (index === 0) {
+          totalScores[player] += achieved;
+        } else {
+          const called = Number(call[player]);
+
+          if (achieved === called || achieved === called + 1) {
+            totalScores[player] += called;
+          } else if (achieved === called - 1 || achieved >= called + 2) {
+            totalScores[player] -= called;
+          }
+        }
+      });
+    });
+
+    return totalScores;
+  };
   return (
     <>
       <TopBar onNewGameClick={handleNewGame} />
 
       {
         config.Title ?
-          <CallBridgeScoreBoardContainer config={config} scores={scores} /> :
+          <CallBridgeScoreBoardContainer config={config} scores={scores} refresh={handleRefresh} /> :
           <Box sx={{ height: '60vh' }}>
             <EmptyState header={'Empty Game'} body={'Create a game to get started. Have FUN!!'} />
           </Box>

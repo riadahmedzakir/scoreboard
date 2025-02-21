@@ -31,7 +31,7 @@ const CreateCall = (props: CreateCallProps): JSX.Element => {
         };
 
 
-        if (!hasLastCall) {
+        if (hasLastCall) {
             showSnackbar("Didn't finish last round", 2000);
             return;
         }

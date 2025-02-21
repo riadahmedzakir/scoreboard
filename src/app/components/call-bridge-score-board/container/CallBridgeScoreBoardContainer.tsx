@@ -1,16 +1,17 @@
 import { Refresh } from "@mui/icons-material";
+import DataSaverOnIcon from '@mui/icons-material/DataSaverOn';
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { Avatar, Card, CardActionArea, CardContent, CardMedia, Grid, IconButton, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
+import EmptyState from "../../empty-state/EmptyState";
 import CreateCall from "../create-call/CreateCall";
 import FinishRound from "../finish-round/FinishRound";
-import { CallBridgeScoreBoardRootProps } from "./CallBridgeScoreBoardContainer.props";
 import CallBridgeBoard from "./CallBridgeBoard";
+import { CallBridgeScoreBoardRootProps } from "./CallBridgeScoreBoardContainer.props";
 
 const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => {
-    const { config, scores } = props;
+    const { config, scores, refresh } = props;
 
     const [isFinishRoundModalOpen, setIsFinishRoundModalOpen] = useState<boolean>(false);
     const [isCreateCallModalOpen, setIsCreateCallModalOpen] = useState<boolean>(false);
@@ -21,6 +22,7 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
             return;
         }
 
+        refresh();
         setIsFinishRoundModalOpen(false);
     }
 
@@ -30,6 +32,7 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
             return;
         }
 
+        refresh();
         setIsCreateCallModalOpen(false);
     }
 
@@ -72,7 +75,7 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
                             onClick={() => { setIsCreateCallModalOpen(true) }}
                         >
                             <Tooltip title="Add calls for the round">
-                                <PersonAddAltIcon />
+                                <DataSaverOnIcon />
                             </Tooltip>
                         </IconButton>
 
@@ -131,10 +134,17 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
                         )
                     }
                 </Grid>
+                
+                {
+                    scores.length ?
+                        <Grid item xs={12} sx={{ mt: 2 }}>
+                            <CallBridgeBoard config={config} scores={scores} />
+                        </Grid> :
+                        <Grid item xs={12} sx={{ height: '50vh' }}>
+                            <EmptyState header={'Empty Scoreboard'} body={'Still no round played. Play some round and get started with the scoreboard'} />
+                        </Grid>
+                }
 
-                <Grid item xs={12} sx={{ mt: 3 }}>
-                    <CallBridgeBoard config={config} scores={scores} />
-                </Grid>
             </Grid>
 
             <CreateCall open={isCreateCallModalOpen} onClose={handleCreateCall} config={config} />

@@ -3,5 +3,6 @@ import { CallBridgeBoardConfig } from "src/app/models/call-bridge-board-config.m
 
 export interface CallBridgeScoreBoardRootProps {
     config: CallBridgeBoardConfig;
-    scores: Array<Array<FieldValues>>
+    scores: Array<Array<FieldValues>>;
+    refresh: () => void;
 }
