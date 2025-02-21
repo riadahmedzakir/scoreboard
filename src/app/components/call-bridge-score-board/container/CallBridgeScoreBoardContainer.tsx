@@ -53,45 +53,52 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
             <Grid item xs={12}>
                 <Grid container justifyContent={"space-between"} alignContent={"center"}>
                     <Grid item>
-                        <Typography variant="h4">
+                        <Typography sx={{ fontSize: { xs: "1.5rem", sm: "2.125rem" } }}>
                             {config?.Title}
                         </Typography>
                     </Grid>
 
                     <Grid item>
                         <IconButton
-                            size="large"
                             edge="start"
                             color="default"
                             aria-label="menu"
                             onClick={() => setIsClearBoardModalOpen(true)}
+                            sx={{
+                                fontSize: { xs: "1rem", sm: "1.5rem" },
+                                padding: { xs: "6px", sm: "12px" },
+                            }}
                         >
                             <Tooltip title="Clear board">
-                                <Refresh />
+                                <Refresh sx={{ fontSize: { xs: "1.5rem", sm: "2rem" } }} />
                             </Tooltip>
                         </IconButton>
 
                         {
                             roundType == 'Call' ?
                                 <IconButton
-                                    size="large"
                                     edge="start"
-                                    color="info"
+                                    color="primary"
                                     aria-label="menu"
-                                    onClick={() => { setIsCreateCallModalOpen(true) }}
-                                >
+                                    onClick={() => setIsCreateCallModalOpen(true)}
+                                    sx={{
+                                        fontSize: { xs: "1rem", sm: "1.5rem" },
+                                        padding: { xs: "6px", sm: "12px" },
+                                    }}>
                                     <Tooltip title="Add calls for the round">
                                         <DataSaverOnIcon />
                                     </Tooltip>
                                 </IconButton> :
                                 <IconButton
-                                    size="large"
                                     edge="start"
                                     color="warning"
                                     aria-label="menu"
-                                    onClick={() => { setIsFinishRoundModalOpen(true) }}
-                                >
-                                    <Tooltip title="Finsh the round">
+                                    onClick={() => setIsFinishRoundModalOpen(true)}
+                                    sx={{
+                                        fontSize: { xs: "16px", sm: "24px", md: '30px' },
+                                        padding: { xs: "6px", sm: "12px" },
+                                    }}>
+                                    <Tooltip title="Add calls for the round">
                                         <DownloadDoneIcon />
                                     </Tooltip>
                                 </IconButton>
@@ -103,44 +110,63 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
 
             <Grid item xs={12}>
 
-                <Grid container justifyContent={'space-between'} alignItems={'center'} spacing={'10px'} sx={{ mt: 2 }}>
-                    {
-                        config.Players.map(player =>
-                            <Grid item key={player.Id} xs={3}>
-                                <Card>
-                                    <CardActionArea>
-                                        <CardMedia
-                                            component="img"
-                                            height="140"
-                                            image={`./${import.meta.env.BASE_URL}/${player.Id}.jpg`}
-                                        />
-
-                                        <CardContent>
-                                            <Grid container justifyContent={'space-between'} alignItems={'center'}>
-                                                <Grid item xs={10}>
-                                                    <Typography gutterBottom variant="h5" component="div">
-                                                        {player.Name}
-                                                    </Typography>
-                                                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                                        <b>Current Call</b> : {player.Call ? player.Call : 'Free Call'}
-                                                    </Typography>
-                                                </Grid>
-
-                                                <Grid item xs={2}>
-                                                    <Avatar
-                                                        children={player.Total ?? 0}
-                                                        variant="circular"
-                                                        sx={{ bgcolor: `#ffedee`, color: '#000', height: '50px', width: '50px', fontSize: '28px' }}
-                                                    />
-                                                </Grid>
+                <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ mt: 2 }}>
+                    {config.Players.map((player) => (
+                        <Grid item key={player.Id} xs={12} sm={6} md={3}>
+                            <Card>
+                                <CardActionArea>
+                                    <CardMedia
+                                        component="img"
+                                        sx={{
+                                            height: { xs: 80, sm: 80, md: 150 },
+                                            objectFit: "cover"
+                                        }}
+                                        image={`${import.meta.env.BASE_URL}${player.Id}.jpg`}
+                                        alt={player.Name}
+                                    />
+                                    <CardContent sx={{ p: { xs: 1, sm: 2 } }}>
+                                        <Grid container justifyContent="space-between" alignItems="center">
+                                            <Grid item xs={8}>
+                                                <Typography
+                                                    gutterBottom
+                                                    variant="h6"
+                                                    component="div"
+                                                    sx={{ fontSize: { xs: "16px", sm: "20px", md: "24px" } }}
+                                                >
+                                                    {player.Name}
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{
+                                                        color: 'text.secondary',
+                                                        fontSize: { xs: "12px", sm: "14px", md: "16px" }
+                                                    }}
+                                                >
+                                                    <b>Current Call</b>: {player.Call || 'Free Call'}
+                                                </Typography>
                                             </Grid>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                            </Grid>
-                        )
-                    }
+
+                                            <Grid item xs={4} display="flex" justifyContent="flex-end">
+                                                <Avatar
+                                                    sx={{
+                                                        bgcolor: '#ffedee',
+                                                        color: '#000',
+                                                        height: { xs: 40, sm: 50 }, // Smaller avatar on mobile
+                                                        width: { xs: 40, sm: 50 },
+                                                        fontSize: { xs: "16px", sm: "20px", md: "24px" },
+                                                    }}
+                                                >
+                                                    {player.Total ?? 0}
+                                                </Avatar>
+                                            </Grid>
+                                        </Grid>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                    ))}
                 </Grid>
+
 
                 {
                     scores.length ?

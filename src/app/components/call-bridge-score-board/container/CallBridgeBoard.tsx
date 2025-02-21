@@ -101,13 +101,17 @@ const CallBridgeBoard = (props: CallBridgeBoardProps): JSX.Element => {
                     backgroundColor: '#000000',
                     color: '#ffffff'
                 },
+                '& .MuiDataGrid-cell': {
+                    fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' },
+                    padding: { xs: '4px', sm: '8px' },
+                },
             }}
             rows={rows}
             columns={columns}
             initialState={{
                 pagination: {
                     paginationModel: {
-                        pageSize: 100,
+                        pageSize: window.innerWidth < 600 ? 50 : 100
                     },
                 },
             }}
@@ -120,10 +124,13 @@ const CallBridgeBoard = (props: CallBridgeBoardProps): JSX.Element => {
             hideFooterSelectedRowCount
             unstable_rowSpanning
             processRowUpdate={processRowUpdate}
-            density="standard"
+            density={window.innerWidth < 600 ? "compact" : "standard"}
             isCellEditable={(params) => params.row.id !== rows.length}
-            getRowClassName={(params) => params.row.id === rows.length ? 'scoreboard-table-row-last' : 'scoreboard-table-row'}
+            getRowClassName={(params) =>
+                params.row.id === rows.length ? 'scoreboard-table-row-last' : 'scoreboard-table-row'
+            }
         />
+
     )
 }
 
