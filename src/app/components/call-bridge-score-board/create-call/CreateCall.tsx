@@ -21,7 +21,7 @@ const CreateCall = (props: CreateCallProps): JSX.Element => {
     const handleCall = (data: FieldValues) => {
         const storeData = JSON.parse(localStorage.getItem("call-bridge-scores") ?? '[]') as Array<Array<FieldValues>>;
         const lastIndex = storeData.length - 1;
-        const hasLastCall = lastIndex === 0 || storeData[lastIndex]?.length === 1;
+        const hasLastCall = lastIndex === -1 || storeData[lastIndex]?.length === 1;
 
         const newScore: FieldValues = {
             'player-1': data['player-1'],

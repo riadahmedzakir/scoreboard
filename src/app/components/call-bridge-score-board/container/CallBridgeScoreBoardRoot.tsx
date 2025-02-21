@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { CallBridgeBoardConfig } from "src/app/models/call-bridge-board-config.model";
 import ConfirmationModal from "../../confirmation-modal/ConfirmationModal";
@@ -44,12 +44,31 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
   const handleRefresh = () => {
     const score = JSON.parse(localStorage.getItem('call-bridge-scores') ?? '[]');
     const config = JSON.parse(localStorage.getItem('call-bridge-board-config') ?? '{}');
-    const total = calculateTotalScores(score);
-    const roundType = score.length == 0 ? 'Trick' : score[score.length - 1]?.length == 1 ? 'Trick' : 'Call';
+    const total: FieldValues = calculateTotalScores(score);
+    const newConfig = mapScoresToPlayers(config, total, score);
 
-    setRoundType(roundType);
+    toggleRoundType(score);
+
+    setConfig(newConfig);
     setScores(score);
   }
+
+  const toggleRoundType = (score: Array<Array<FieldValues>>) => {
+    const roundType = score.length == 0 ? 'Trick' : score[score.length - 1]?.length == 1 ? 'Trick' : 'Call';
+    setRoundType(roundType);
+  }
+
+  const mapScoresToPlayers = (gameData: CallBridgeBoardConfig, totalScores: FieldValues, score: Array<Array<FieldValues>>) => {
+    const lastCall = score[score.length - 1][0];
+
+    const updatedPlayers = gameData.Players.map((player) => ({
+      ...player,
+      Total: totalScores[player.Id] ?? 0,
+      Call: lastCall[player.Id] ?? 0,
+    }));
+
+    return { ...gameData, Players: updatedPlayers };
+  };
 
   const calculateTotalScores = (rounds: any) => {
     const totalScores: any = {};
@@ -81,6 +100,17 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
 
     return totalScores;
   };
+
+  useEffect(() => {
+    if (scores.length) {
+      const total = calculateTotalScores(scores);
+      const newConfig = mapScoresToPlayers(config, total, scores);
+
+      toggleRoundType(scores);
+      setConfig(newConfig);
+    }
+  }, [scores]);
+
   return (
     <>
       <TopBar onNewGameClick={handleNewGame} />
