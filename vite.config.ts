@@ -5,7 +5,6 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   root: __dirname,
-  base: "/portfolio",
   cacheDir: './node_modules/.vite/scoreboard',
 
   server: {
