@@ -121,7 +121,7 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
                                             height: { xs: 80, sm: 80, md: 150 },
                                             objectFit: "cover"
                                         }}
-                                        image={`${import.meta.env.BASE_URL}${player.Id}.jpg`}
+                                        image={`./${import.meta.env.BASE_URL}/${player.Id}.jpg`}
                                         alt={player.Name}
                                     />
                                     <CardContent sx={{ p: { xs: 1, sm: 2 } }}>
