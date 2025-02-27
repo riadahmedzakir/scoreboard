@@ -6,8 +6,8 @@ import ConfirmationModal from "../../confirmation-modal/ConfirmationModal";
 import EmptyState from "../../empty-state/EmptyState";
 import TopBar from "../../top-bar/TopBar";
 import CallBridgeCreateGame from "../create-game/CallBridgeCreateGame";
-import CallBridgeScoreBoardContainer from "./CallBridgeScoreBoardContainer";
 import Winner from "../winner/Winner";
+import CallBridgeScoreBoardContainer from "./CallBridgeScoreBoardContainer";
 
 const CallBridgeScoreBoardRoot = (): JSX.Element => {
   const [config, setConfig] = useState<CallBridgeBoardConfig>(JSON.parse(localStorage.getItem('call-bridge-board-config') ?? '{}'));
@@ -25,7 +25,10 @@ const CallBridgeScoreBoardRoot = (): JSX.Element => {
     }
 
     const newConfig = JSON.parse(localStorage.getItem('call-bridge-board-config') ?? '{}');
+    localStorage.removeItem('call-bridge-scores');
 
+    toggleRoundType([]);
+    setScores([]);
     setConfig({ ...newConfig });
     setIsNewGameModalOpen(false);
   }

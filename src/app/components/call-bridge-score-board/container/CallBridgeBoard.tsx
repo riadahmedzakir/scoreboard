@@ -14,6 +14,9 @@ const StyledDataGrid = styled(DataGrid)(() => ({
         backgroundColor: '#000000',
         color: '#FFFFFF'
     },
+    '& .MuiDataGrid-cellEmpty': {
+        padding: "0px"
+    },
     "& .MuiDataGrid-cell:nth-of-type(3)": {
         borderLeft: "1px solid #e0e0e0",
     },
@@ -57,6 +60,7 @@ const CallBridgeBoard = (props: CallBridgeBoardProps): JSX.Element => {
             headerClassName: 'scoreboard-header',
             headerAlign: 'center',
             align: "center",
+            display: 'flex',
             editable: false,
             flex: 1,
             cellClassName: 'text-bold',
@@ -69,6 +73,7 @@ const CallBridgeBoard = (props: CallBridgeBoardProps): JSX.Element => {
             headerClassName: 'scoreboard-header',
             headerAlign: 'center',
             align: 'center',
+            display: 'flex',
             editable: true,
             type: 'number',
             flex: 1,
@@ -115,6 +120,7 @@ const CallBridgeBoard = (props: CallBridgeBoardProps): JSX.Element => {
                     },
                 },
             }}
+
             disableRowSelectionOnClick
             disableColumnSorting
             disableColumnResize

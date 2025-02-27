@@ -9,6 +9,7 @@ import FinishRound from "../finish-round/FinishRound";
 import CallBridgeBoard from "./CallBridgeBoard";
 import { CallBridgeScoreBoardRootProps } from "./CallBridgeScoreBoardContainer.props";
 import ConfirmationModal from "../../confirmation-modal/ConfirmationModal";
+import ScoreOverview from "../score-overview/ScoreOverview";
 
 const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => {
     const { config, scores, refresh, roundType } = props;
@@ -110,7 +111,7 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
 
             <Grid item xs={12}>
 
-                <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ mt: 2 }}>
+                {/* <Grid container justifyContent="center" alignItems="center" spacing={2} sx={{ mt: 2 }}>
                     {config.Players.map((player) => (
                         <Grid item key={player.Id} xs={12} sm={6} md={3}>
                             <Card>
@@ -165,8 +166,10 @@ const CallBridgeScoreBoardContainer = (props: CallBridgeScoreBoardRootProps) => 
                             </Card>
                         </Grid>
                     ))}
-                </Grid>
+                </Grid> */}
 
+
+                <ScoreOverview config={config} />
 
                 {
                     scores.length ?
